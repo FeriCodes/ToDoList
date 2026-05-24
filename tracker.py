@@ -1,4 +1,5 @@
 import json
+import sys
 
 
 def main_menu():
@@ -9,6 +10,15 @@ def main_menu():
     print("4-Remove task")
     print("5-View streaks")
     print("6-Exit")
+
+
+def get_choice():
+    try:
+        user = int(input("\nChoose a number from the menu: "))
+        return user
+    except ValueError:
+        print("❌ Invalid input! Please enter a number.")
+        return None
 
 
 def add_task():
@@ -41,10 +51,27 @@ def view_streaks():
     """
 
 
-def Exit():
-    """
-    6-Close the program.
-    """
+def main():
+    while True:
+        main_menu()
+        choice = get_choice()
+        if choice == 1:
+            add_task()
+        elif choice == 2:
+            mark_task_done()
+        elif choice == 3:
+            view_calendar()
+        elif choice == 4:
+            remove_task()
+        elif choice == 5:
+            view_streaks()
+        elif choice == 6:
+            print("\ngoodbye!")
+            return sys.exit()
+        elif choice is None:
+            continue
+        else:
+            print("Option not found. Please try again.")
 
 
 if __name__ == "__main__":
