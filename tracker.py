@@ -1,5 +1,6 @@
 import json
 import sys
+import os
 
 
 def main_menu():
@@ -25,6 +26,37 @@ def add_task():
     """
     1-Adds tasks to help build streaks and habits. tasks are also saved to a json file.
     """
+    while True:
+
+        activity_name = input("Enter the task or habit you want to add: ")
+
+        if activity_name.isdigit():
+            print("please enter a task instead the numbers.")
+            continue
+
+        if os.path.exists("tasks.json"):
+
+            with open("tasks.json", "r", encoding="utf-8") as file:
+                tasks_list = json.load(file)
+        else:
+            tasks_list = []
+        tasks_list.append(activity_name)
+
+        # if the file dosen't exsits this can create the file
+        with open("tasks.json", "w", encoding="utf-8") as file:
+            json.dump(tasks_list, file, indent=4)
+
+        print(f"✅ '{activity_name}' added successfully!")
+
+        asking = input(
+            "Do you want to add another task? (y/n): ").lower().strip()
+
+        if asking == "y":
+            continue
+        elif asking == "n":
+            break
+        else:
+            print("❌ Invalid input! Please enter 'y' or 'n'.")
 
 
 def mark_task_done():
