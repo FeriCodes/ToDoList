@@ -1,4 +1,12 @@
 [
-    "learning english",
-    "reading book"
+    {
+        "task": "learning English",
+        "streak": 1,
+        "done_today": true
+    },
+    {
+        "task": "programming",
+        "streak": 0,
+        "done_today": false
+    }
 ]

@@ -40,7 +40,14 @@ def add_task():
                 tasks_list = json.load(file)
         else:
             tasks_list = []
-        tasks_list.append(activity_name)
+
+        new_task = {
+            "task": activity_name,
+            "streak": 0,
+            "done_today": False
+        }
+
+        tasks_list.append(new_task)
 
         # if the file dosen't exsits this can create the file
         with open("tasks.json", "w", encoding="utf-8") as file:
@@ -63,6 +70,45 @@ def mark_task_done():
     """
     2-Marks a task as completed. Visually indicates completion (e.g., with a green mark) or non-completion (e.g., with a red mark) if the task was not done.
     """
+    with open("tasks.json", "r", encoding="utf-8") as file:
+        tasks_list = json.load(file)
+
+    # this is for choose the every task you want.
+    for index, item in enumerate(tasks_list):
+        print(f"{index + 1}. Task: {item['task']} | Streak: {item['streak']}")
+
+    try:
+        task_number = int(
+            input("Enter the number of the task you completed: "))
+        if task_number <= 0:
+            print("❌ Error: The number must be 1 or higher!")
+            return
+
+        index = task_number - 1
+
+        if index >= len(tasks_list):
+            print("❌ Error: Task number out of range!")
+            return
+
+        selected_task = tasks_list[index]
+        user_done = input(
+            f"are you done the {selected_task["task"]} task? (y/n): ")
+
+        if user_done == "y":
+            selected_task["streak"] += 1
+            selected_task["done_today"] = True
+            print("🔥 Great job! Streak updated.")
+
+        elif user_done == "n":
+            selected_task["streak"] = 0
+            selected_task["done_today"] = False
+            print("❌ Streak reset. Consistency is key!")
+
+        with open("tasks.json", "w", encoding="utf-8") as file:
+            json.dump(tasks_list, file, indent=4)
+
+    except ValueError:
+        print("❌ Error: please enter a number")
 
 
 def view_calendar():
@@ -85,6 +131,7 @@ def view_streaks():
 
 def main():
     while True:
+
         main_menu()
         choice = get_choice()
         if choice == 1:
