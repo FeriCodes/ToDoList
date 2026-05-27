@@ -20,5 +20,4 @@ jobs:
 
       - name: Check for Python syntax errors
         run: |
-
           python -m compileall .
