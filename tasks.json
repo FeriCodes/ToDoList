@@ -8,10 +8,5 @@
         "task": "programming",
         "streak": 0,
         "done_today": false
-    },
-    {
-        "task": "reading book",
-        "streak": 0,
-        "done_today": false
     }
 ]

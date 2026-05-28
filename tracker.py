@@ -7,10 +7,11 @@ def main_menu():
     print("\n----------Main Menu----------\n")
     print("1-Add task")
     print("2-Mark task done")
-    print("3-View calendar and tasks")
+    print("3-View calendar")
     print("4-Remove task")
     print("5-View streaks")
-    print("6-Exit")
+    print("6-show all the tasks")
+    print("7-Exit")
 
 
 def load_file():
@@ -42,30 +43,19 @@ def get_choice():
         return None
 
 
-def select_task():
+def select_task(tasks_list):
 
-    tasks_list = load_file()
-
-    if not tasks_list:
-        print("no tasks found. add some tasks.")
-        return None, None
-
-    # this is for choose the every task you want.
-    print("\n--- Your Tasks---")
-    for index, item in enumerate(tasks_list):
-        status = "✅" if item['done_today'] else "❌"
-        print(f"{index + 1}. Task: {item['task']} | Streak: {item['streak']}")
-
+    if show_tasks(tasks_list) is False:
+        return None
     try:
         task_number = int(
             input("Enter the number of the task you completed: "))
 
         if task_number <= 0 or task_number > len(tasks_list):
             print("❌ Error: Task number out of range!")
-            return None, None
-        index = task_number - 1
-        return tasks_list, index
-
+            return None
+        return task_number - 1
+    
     except ValueError:
         print("❌ Error: please enter a number")
 
@@ -75,6 +65,7 @@ def add_task():
     1-Adds tasks to help build streaks and habits. tasks are also saved to a json file.
     """
     while True:
+       
 
         activity_name = input("Enter the task or habit you want to add: ")
 
@@ -114,11 +105,11 @@ def add_task():
             break
 
 
-def mark_task_done():
+def mark_task_done(tasks_list):
     """
     2-Marks a task as completed.
     """
-    tasks_list, index = select_task()
+    index = select_task(tasks_list)
 
     if tasks_list is None or index is None:
         return
@@ -147,36 +138,70 @@ def view_calendar():
     """
     3-Creates a simple calendar view and displays all associated tasks.
     """
+    pass
 
 
-def remove_task():
+def remove_task(tasks_list):
     """
     4-Remove the selected task from the program.
     """
+    index = select_task(tasks_list)
+    if index is None:
+        return 
+    
+    selected_task = tasks_list[index]
+
+    confrim = input(f"Are you sure you want to remove {selected_task['task']}?: (y/n)")
+    if confrim == "y":
+        tasks_list.pop(index)
+        write_file(tasks_list) 
+        print("✅Task removed succssfully!")
+    else:
+        print("❌Removal canceled.")
 
 
 def view_streaks():
     """
     5-Displays all tracked streaks for the user's tasks.
     """
+    pass 
 
+
+def show_tasks(tasks_list):
+    """
+    6-Displays all the tasks which you add to the "tasks.json" file.
+    """
+    if not tasks_list:
+        print("no tasks found. add some tasks.")
+        return False
+    
+    # this is for choose the every task you want.
+    print("\n--- Your Tasks---")
+    for index, item in enumerate(tasks_list):
+        status = "✅" if item['done_today'] else "❌"
+        print(f"{index + 1}. Task: {item['task']} | Streak: {item['streak']} | status: {status}")
+
+    return True
 
 def main():
     while True:
+        current_tasks = load_file()
 
         main_menu()
         choice = get_choice()
         if choice == 1:
             add_task()
         elif choice == 2:
-            mark_task_done()
+            mark_task_done(current_tasks)
         elif choice == 3:
             view_calendar()
         elif choice == 4:
-            remove_task()
+            remove_task(current_tasks)
         elif choice == 5:
             view_streaks()
         elif choice == 6:
+            show_tasks(current_tasks)
+        elif choice == 7:
             print("\ngoodbye!")
             return sys.exit()
         elif choice is None:
