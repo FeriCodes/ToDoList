@@ -84,7 +84,7 @@ def updated_tasks_by_time(tasks_list):
     write_file(tasks_list)
 
 
-def add_task():
+def add_task(tasks_list):
     """
     1-Adds tasks to help build streaks and habits. tasks are also saved to a json file.
     """
@@ -100,9 +100,6 @@ def add_task():
         if not activity_name:
             print("❌ Task name cannot be empty.")
             continue
-
-        # open the file even if dosen't exsist this can make a new file name "tasks.json"
-        tasks_list = load_file()
 
         new_task = {
             "task": activity_name,
@@ -237,7 +234,7 @@ def main():
         main_menu(formatted_now)
         choice = get_choice()
         if choice == 1:
-            add_task()
+            add_task(current_tasks)
         elif choice == 2:
             mark_task_done(current_tasks)
         elif choice == 3:
