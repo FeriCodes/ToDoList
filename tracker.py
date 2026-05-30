@@ -149,7 +149,7 @@ def mark_task_done(tasks_list):
     """
     index = select_task(tasks_list, "mark as done")
 
-    if tasks_list is None or index is None:
+    if index is None:
         return
     
     selected_task = tasks_list[index]
@@ -190,11 +190,11 @@ def remove_task(tasks_list):
     
     selected_task = tasks_list[index]
 
-    confrim = input(f"Are you sure you want to remove {selected_task['task']}?: (y/n)")
-    if confrim == "y":
+    confirm = input(f"Are you sure you want to remove {selected_task['task']}?: (y/n)")
+    if confirm == "y":
         tasks_list.pop(index)
         write_file(tasks_list) 
-        print("✅Task removed succssfully!")
+        print("✅Task removed successfully!")
     else:
         print("❌Removal canceled.")
 
