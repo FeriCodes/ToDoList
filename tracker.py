@@ -71,7 +71,7 @@ def select_task(tasks_list, action_message):
 
 def updated_tasks_by_time(tasks_list):
     """
-    adding a time for program and remmeber your ckeck and done your tasks or not
+    Checks the elapsed time and automatically updates task completion statuses and streaks.
     """
 
     now = datetime.now()
@@ -88,9 +88,8 @@ def updated_tasks_by_time(tasks_list):
             continue
         elif days_passed == 1:
             item["done_today"] = False
-        elif days_passed >= 2:
-            item["done_today"] = False
-            item["streak"] = 0
+            if days_passed >= 2:
+                item["streak"] = 0
 
     write_file(tasks_list)
 
