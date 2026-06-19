@@ -29,6 +29,7 @@ def get_choice():
         if user < 1 or user > 7:
             print("❌ Option not found. Please try again.")
             return None
+        return user
     except ValueError:
         print("❌ Invalid input! Please enter a number.")
         return None
