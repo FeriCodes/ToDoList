@@ -28,33 +28,14 @@ This is a **personal learning project** where I practice:
 
 ### 📋 Planned (Long-term)
 - Visual calendar view for tasks
-- GUI with tkinter
+- GUI with customtkinter
 - Enhanced color-coded status display
 - Backup and restore functionality
 - Data export (CSV, PDF)
 
-## 📁 Project Structure
+## 📸 Screenshots
 
-```
-ToDoList/
-├── main.py              # Entry point - runs the application
-├── README.md
-├── tasks.json           # Task data storage
-├── .gitignore
-│
-├── src/                 # Main package
-│   ├── __init__.py
-│   ├── database.py      # JSON file operations (load/save tasks)
-│   ├── ui.py            # Display menus and task information
-│   ├── manager.py       # Core business logic (add, edit, remove tasks)
-│   └── models.py        # Data models and structures (TBD)
-│
-├── archive/             # Previous implementation versions
-│   └── tracker.py
-│
-└── .github/
-    └── workflows/       # CI/CD workflows (future)
-```
+![App Environment](images/terminal-interface.png)
 
 ### What Each Module Does
 
@@ -80,7 +61,7 @@ Through this project, I'm learning:
 - File operations and JSON handling
 - Error handling and exception management
 - Object-Oriented Programming principles
-- GUI development with tkinter (future)
+- GUI development with customtkinter (future)
 - Clean code and best practices
 - Git and version control
 
