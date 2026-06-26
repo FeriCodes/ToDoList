@@ -28,53 +28,58 @@ class Manager:
                 item["done_today"] = False
                 item["streak"] = 0
 
+    def validate_task_name(self, name_to_check, current_name=None):
+        perfect_name = name_to_check.strip()
 
-def add_task(tasks_list):
-    """
-    1-Adds tasks to help build streaks and habits. tasks are also saved to a json file.
-    """
-    while True:
-        activity_name = input("\nEnter the task or habit you want to add: ").strip()
+        if perfect_name.isdigit():
+            return {
+                "success": False,
+                "status": "Error",
+                "message": "Task name cannot be a number",
+            }
 
-        if activity_name.isdigit():
-            print("❌ please enter a task instead the numbers.")
-            continue
+        if not perfect_name:
+            return {
+                "success": False,
+                "status": "empty",
+                "message": "Task name cannot be empty!",
+            }
 
-        if not activity_name:
-            print("❌ Task name cannot be empty.")
-            continue
+        existing_names = [
+            item["task"].strip().lower()
+            for item in self.tasks_list
+            if current_name is None
+            or item["task"].strip().lower() != current_name.strip().lower()
+        ]
 
-        existing_names = [item["task"].strip().lower() for item in tasks_list]
-        if activity_name.lower() in existing_names:
-            print(f"❌ '{activity_name}' already exists in your list!")
-            continue
+        if perfect_name.lower() in existing_names:
+            return {
+                "success": False,
+                "status": "duplicate",
+                "message": f"The task '{perfect_name}' already exists!",
+            }
 
-        task_obj = Task(activity_name)
+        return {"success": True, "perfect_name": perfect_name}
+
+    def new_task(self, activity_name):
+        """
+        Adds a new task after validation.
+        """
+        validation = self.validate_task_name(activity_name)
+
+        if not validation["success"]:
+            return validation
+        clean_name = validation["perfect_name"]
+
+        task_obj = Task(clean_name)
         new_task = task_obj.to_dict()
-        tasks_list.append(new_task)
+        self.tasks_list.append(new_task)
 
-        print(f"✅ '{activity_name}' added successfully!")
-
-        asking = input("\nDo you want to add another task? (y/n): ").lower().strip()
-
-        if asking == "y":
-            continue
-        if asking == "n":
-            break
-        else:
-            print("❌ Invalid input! Please enter 'y' or 'n'.")
-            continue
-
-
-def mark_task_done(tasks_list):
-    """
-    2-Marks a task as completed.
-    """
-    index = select_task(tasks_list, "mark as done")
-
-    if index is None:
-        return
-    selected_task = tasks_list[index]
+        return {
+            "success": True,
+            "status": "success",
+            "message": "Task added successfully!",
+        }
 
     if selected_task["done_today"]:
         print("❌ Already completed today!")
