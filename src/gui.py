@@ -7,12 +7,15 @@ class TodoApp:
         self.db = db
         self.manager = manager
         self.root.title("Habit Tracker")
-        self.root.geometry("400x500")
+        self.root.geometry("550x600")
         self.root.resizable(False, False)
 
         # scrolling between the tasks
         self.scroll_frame = ctk.CTkScrollableFrame(self.root)
         self.scroll_frame.pack(fill="both", expand=True, padx=10, pady=10)
+
+        self.root.configure(fg_color="#1a1a1a")
+        self.scroll_frame.configure(fg_color="#1a1a1a")
 
         self.refresh_list()
 
@@ -30,17 +33,28 @@ class TodoApp:
                 border_width=1,
                 border_color="white",
             )
-            card.pack(fill="x", padx=20, pady=8)
+            card.pack(fill="x", padx=20, pady=10)
+
+            text_frame = ctk.CTkFrame(card, fg_color="transparent")
+            text_frame.pack(side="right", padx=10)
 
             label_name = ctk.CTkLabel(
-                card, text=items["task"], font=("Segoe UI", 17), anchor="w"
+                card, text=items["task"], font=("Segoe UI", 16), anchor="w"
             )
             label_name.pack(side="left", padx=20, pady=15)
 
             streak_label = ctk.CTkLabel(
-                card, text=f"streak: {items['streak']}", font=("Segoe UI", 14)
+                text_frame, text=f"streak: {items['streak']}", font=("Segoe UI", 15)
             )
-            streak_label.pack(side="right", padx=10)
+            streak_label.pack(anchor="e")
+
+            best_streak_label = ctk.CTkLabel(
+                text_frame,
+                text=f"best streak: {items['longest_streak']}",
+                font=("segoe UI", 13),
+                text_color="#f0c14b",
+            )
+            best_streak_label.pack(anchor="e")
 
             done_btn = ctk.CTkButton(
                 card,
